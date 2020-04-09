@@ -24,7 +24,7 @@ app.get('/api/courses/:id',(req,res) => {
     //Tell me how this arrow functiona is working i am little confuse about this
     const course = courses.find(c => c.id === parseInt(req.params.id));
     if (!course){
-        res.status(404).send('The course not available');
+        return res.status(404).send('The course not available');
     }
     res.send(course);
 });
@@ -32,8 +32,7 @@ app.get('/api/courses/:id',(req,res) => {
 app.post('/api/courses',(req,res) => {
     const { error } = validate(req.body); //result.error
     if (error){
-        res.status(400).send(error.details[0].message)
-        return;
+        return res.status(400).send(error.details[0].message)
     };
 
     const course = {
@@ -50,19 +49,30 @@ app.put('/api/courses/:id',(req,res) =>{
     //if course doest not exist
     const course = courses.find(c => c.id === parseInt(req.params.id));
     if (!course){
-        res.status(404).send('The course not available');
-        return;
+        return res.status(404).send('The course not available'); 
     }
 
     //validate
     const { error } = validate(req.body); //result.error
     
     if (error){
-        res.status(400).send(error.details[0].message)
-        return;
+        return res.status(400).send(error.details[0].message) 
     };
 
     course.name = req.body.name;
+    res.send(course);
+});
+
+app.delete('/api/courses/:id',(req,res) => {
+    //if course doest not exist
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course){
+        return res.status(404).send('The course not available'); 
+    }
+
+    const index = courses.indexOf(course);
+    courses.splice(index,1);
+
     res.send(course);
 });
 
