@@ -87,3 +87,18 @@ function validate(course){
 
 const port = process.env.PORT || 3000;
 app.listen(port,() => console.log(`Listing on port ${port}...`));
+
+
+app.post('/middleware',
+(req,res,next) => {
+    const number = req.body.number;
+    if (typeof number !== 'number') {
+        return res.status(404).send('Invalid Number'); 
+    }
+    next();
+},
+(req,res,next) => {
+    const number = req.body.number;
+    res.send(number ** 4);
+},
+);
