@@ -1,6 +1,7 @@
 const validate = require('./validator');
 const limiter = require('./rate-limitator');
 const express = require('express');
+//const email = require('./send-email');
 const app = express();
 
 //To get data from post body in object form or json form
@@ -90,6 +91,5 @@ app.delete('/api/courses/:id',(req,res) => {
 
 
 
-
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 2000;
 app.listen(port,() => console.log(`Listing on port ${port}...`));
