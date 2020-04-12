@@ -1,9 +1,21 @@
 const validate = require('./validator');
+const limiter = require('./rate-limitator');
 const express = require('express');
 const app = express();
 
 //To get data from post body in object form or json form
 app.use(express.json());
+
+//apply to all requests (Limit the api requests per IP)
+//app.use(limiter.limit);
+
+
+
+//middleware with rate limiter
+app.get('/',limiter.limit,(req,res,next) => {
+     console.log('I am middleware');
+     next();
+});
 
 const courses = [
     {id:1,name:'course1'},
