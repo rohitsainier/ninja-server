@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const validate = require('./validator');
 const express = require('express');
 const app = express();
 
@@ -30,7 +30,7 @@ app.get('/api/courses/:id',(req,res) => {
 });
 
 app.post('/api/courses',(req,res) => {
-    const { error } = validate(req.body); //result.error
+    const { error } = validate.validator(req.body); //result.error
     if (error){
         return res.status(400).send(error.details[0].message)
     };
@@ -53,7 +53,7 @@ app.put('/api/courses/:id',(req,res) =>{
     }
 
     //validate
-    const { error } = validate(req.body); //result.error
+    const { error } = validate.validator(req.body); //result.error
     
     if (error){
         return res.status(400).send(error.details[0].message) 
@@ -77,13 +77,7 @@ app.delete('/api/courses/:id',(req,res) => {
 });
 
 
-function validate(course){
-    //validate
-    const schema = {
-        name: Joi.string().min(3).required()
-    };
-    return Joi.validate(course,schema);
-}
+
 
 const port = process.env.PORT || 3000;
 app.listen(port,() => console.log(`Listing on port ${port}...`));
